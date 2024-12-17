@@ -66,12 +66,6 @@ static bool create_pic()
 			fileHeader.bfReserved2 = 0;
 			fileHeader.bfOffBits = sizeof(BITMAPFILEHEADER) + sizeof(BITMAPINFOHEADER);
 
-			/*char savePath[255] = { 0 };
-			if (!getPath(savePath))
-			{
-				fprintf(stderr, "failed to get saving path");
-				return false;
-			}*/
 
 			FILE* pf = fopen("temp.bmp", "wb");
 			if (!pf)
@@ -107,15 +101,16 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		{
 			if (IsClipboardFormatAvailable(CF_DIB))
 			{
-				create_pic();		
-						
-				time_t now_time;
+				if(!create_pic())
+				{
+					time_t now_time;
 				time(&now_time);
 
 				FILE* pf = fopen("./failure.log", "a");
 				fprintf(pf, "%s", ctime(&now_time));
 				fprintf(pf, "%s", "bmp文件生成失败\n");
 				fclose(pf);	
+				}
 			}
 			CloseClipboard();
 		}
