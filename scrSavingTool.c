@@ -117,6 +117,7 @@ LRESULT CALLBACK WindowProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_DESTROY:
+		Py_Finalize();
 		PostQuitMessage(0);
 		break;
 
